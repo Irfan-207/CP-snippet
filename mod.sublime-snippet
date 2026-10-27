@@ -1,0 +1,19 @@
+<snippet>
+    <content><![CDATA[
+// Modular exponentiation: x^y % mod
+ll modpow(ll x, ll y)
+{
+    if (y == 0)
+        return 1 % MOD;
+
+    if (y % 2 == 1)
+        return (x * modpow(x, y - 1)) % MOD;
+
+    ll r = modpow(x, y / 2);
+
+    return (r * r) % MOD;
+}
+]]></content>
+    <tabTrigger>mod</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,23 @@
+<snippet>
+    <content><![CDATA[
+bool bs(ll x)
+{
+    /*
+    # Lower bound() --->
+
+    1. Less than x → use lower_bound() − 1 → gives last element < x ---> v.begin()
+    2. Greater than or equal x → use lower_bound() → gives first element ≥ x. ---> v.end()
+
+    # Upper Bound() --->
+
+    1. Greater than x → use upper_bound() → gives first element > x. ---> v.end()
+    2. Less than or equal x → use upper_bound() − 1 → gives last element ≤ x. ---> v.begin()
+
+    # Get the value ---> *it
+    # Get the 1 based index ---> (it - num.begin()) + 1
+    */
+}
+]]></content>
+    <tabTrigger>bs</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

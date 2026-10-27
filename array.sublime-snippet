@@ -1,0 +1,82 @@
+<snippet>
+    <content><![CDATA[
+// Build prefix minimum: pref[i] = min(a[0..i])
+template<typename T>
+void build_prefix_min(const vector<T>& a, vector<T>& pref)
+{
+    size_t n = a.size();
+    pref.resize(n);
+
+    if (n == 0) return;
+
+    pref[0] = a[0];
+
+    for (size_t i = 1; i < n; ++i)
+        pref[i] = min(pref[i-1], a[i]);
+}
+
+// Usage: build_prefix_min(a, pref); // now pref[i] is min of a[0..i]
+
+
+// Build prefix maximum: pref[i] = max(a[0..i])
+template<typename T>
+void build_prefix_max(const vector<T>& a, vector<T>& pref)
+{
+    size_t n = a.size();
+    pref.resize(n);
+
+    if (n == 0) return;
+
+    pref[0] = a[0];
+
+    for (size_t i = 1; i < n; ++i)
+        pref[i] = max(pref[i-1], a[i]);
+}
+
+// Usage: build_prefix_max(a, pref); // now pref[i] is max of a[0..i]
+
+
+// Build suffix minimum: suf[i] = min(a[i..n-1])
+template<typename T>
+void build_suffix_min(const vector<T>& a, vector<T>& suf)
+{
+    size_t n = a.size();
+    suf.resize(n);
+
+    if (n == 0) return;
+
+    suf[n-1] = a[n-1];
+
+    for (size_t k = 1; k < n; ++k)
+    {
+        size_t i = n - 1 - k;
+        suf[i] = min(suf[i+1], a[i]);
+    }
+}
+
+// Usage: build_suffix_min(a, suf); // now suf[i] is min of a[i..n-1]
+
+
+// Build suffix maximum: suf[i] = max(a[i..n-1])
+template<typename T>
+void build_suffix_max(const vector<T>& a, vector<T>& suf)
+{
+    size_t n = a.size();
+    suf.resize(n);
+
+    if (n == 0) return;
+
+    suf[n-1] = a[n-1];
+
+    for (size_t k = 1; k < n; ++k)
+    {
+        size_t i = n - 1 - k;
+        suf[i] = max(suf[i+1], a[i]);
+    }
+}
+
+// Usage: build_suffix_max(a, suf); // now suf[i] is max of a[i..n-1]
+]]></content>
+    <tabTrigger>array</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

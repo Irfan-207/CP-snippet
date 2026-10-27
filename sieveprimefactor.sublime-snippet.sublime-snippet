@@ -1,0 +1,110 @@
+<snippet>
+    <content><![CDATA[
+// ===== Linear Sieve + SPF (best default) ===== //
+const int MAXP = 1e6;
+
+vector<int> primes;
+int spf[MAXP + 1];
+
+void build_sieve()
+{
+    for (int i = 2; i <= MAXP; i++)
+    {
+        if (!spf[i])
+        {
+            spf[i] = i;
+            primes.push_back(i);
+        }
+
+        for (int p : primes)
+        {
+            long long x = 1LL * p * i;
+
+            if (x > MAXP) break;
+
+            spf[x] = p;
+
+            if (p == spf[i]) break;
+        }
+    }
+}
+
+vector<ll> pf;       // distinct prime factors
+vector<ll> pf_all;   // with multiplicity
+set<ll> distinct_pf; // set version
+
+void factor(ll x)
+{
+    pf.clear();
+    pf_all.clear();
+    distinct_pf.clear();
+
+    if (x <= 1) return;
+
+    // If x fits inside SPF range
+    if (x <= MAXP)
+    {
+        while (x > 1)
+        {
+            ll p = spf[x];
+
+            pf.push_back(p);
+
+            while (x % p == 0)
+            {
+                pf_all.push_back(p);
+                x /= p;
+            }
+        }
+
+        distinct_pf.insert(pf.begin(), pf.end());
+
+        return;
+    }
+
+    // Otherwise factor using primes list (works up to 1e12)
+    for (ll p : primes)
+    {
+        if (p * p > x)
+            break;
+
+        if (x % p == 0)
+        {
+            pf.push_back(p);
+
+            while (x % p == 0)
+            {
+                pf_all.push_back(p);
+                x /= p;
+            }
+        }
+    }
+
+    if (x > 1)
+    {
+        pf.push_back(x);
+        pf_all.push_back(x);
+    }
+
+    distinct_pf.insert(pf.begin(), pf.end());
+}
+
+// build_sieve(); // move this sh*t inside the main function
+
+/*
+MAXIMUM CONSTRAINTS / NOTES:
+
+num <= 1e12
+t ~ 1e3–1e4 is safe in typical CP time limits (1s–2s)
+
+Total test cases (t * num) that can be handled :
+For very large num ~1e12: t <= 1000–10000 safe
+
+For num > 1e12, this method may miss large prime factors
+
+*****Do NOT call build_sieve() inside solve() → only once in main()
+*/
+]]></content>
+    <tabTrigger>sieveprimefactor</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

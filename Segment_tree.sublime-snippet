@@ -1,0 +1,90 @@
+<snippet>
+	<content><![CDATA[
+
+
+/*-------------------------------------------------------------------------
+							START OF SEGMENT TREE
+-------------------------------------------------------------------------*/
+const ll max_n = 2e5 + 5;
+vector<ll> vec(max_n);
+vector<ll> sgt(4*max_n);
+
+// // ====== CHANGE ONLY THESE TWO ======
+// const ll IDENTITY = 0; // sum: 0 | min: LLONG_MAX | max: LLONG_MIN | xor: 0 | gcd: 0
+// ll merge_(ll a, ll b)
+// {
+// 	return a + b; // sum: a + b | min: min(a, b) | max: max(a, b) | xor: a ^ b | gcd: __gcd(a, b)
+// }
+// // ===================================
+const ll IDENTITY = 0;
+ll merge_(ll a , ll b);
+// build the segment tree 
+void build(ll start, ll end, ll index)
+{
+	// leaf node --- base case
+	if(start == end)
+	{
+		sgt[index] = vec[start];
+		return;
+	}
+
+	ll mid = (start + end) / 2;
+
+	build(start, mid, 2*index);       // left child
+	build(mid + 1, end, 2*index + 1); // right child
+
+	sgt[index] = merge_(sgt[2*index], sgt[2*index + 1]);
+}
+
+// update the tree
+void update(ll start, ll end, ll index, ll up_index, ll up_val)
+{
+	if(start == end)
+	{
+		sgt[index] = up_val;
+		return;
+	}
+
+	ll mid = (start + end) / 2;
+
+	if(mid >= up_index) update(start, mid, 2*index, up_index, up_val);   // go left
+	else update(mid + 1, end, 2*index + 1, up_index, up_val);            // go right
+
+	sgt[index] = merge_(sgt[2*index], sgt[2*index + 1]);
+}
+
+// Range query
+ll query(ll start, ll end, ll index, ll l, ll r)
+{
+	// no overlap
+	if(start > r || end < l) return IDENTITY;
+
+	// complete overlap
+	if(l <= start && r >= end) return sgt[index];
+
+	// partial overlap
+	ll mid = (start + end) / 2;
+	ll from_left = query(start, mid, 2*index, l, r);
+	ll from_right = query(mid + 1, end, 2*index + 1, l, r);
+
+	return merge_(from_left, from_right);
+}
+
+// ====== CHANGE ONLY THESE TWO ======
+// const ll IDENTITY = 0; // sum: 0 | min: LLONG_MAX | max: LLONG_MIN | xor: 0 | gcd: 0
+ll merge_(ll a, ll b)
+{
+	return a + b; // sum: a + b | min: min(a, b) | max: max(a, b) | xor: a ^ b | gcd: __gcd(a, b)
+}
+// ===================================
+
+// Call the build function after taking the input array : build(0, n - 1, 1);
+/*-------------------------------------------------------------------------*/
+
+
+
+]]></content>
+	<tabTrigger>segment_tree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c , source.c++</scope>
+</snippet>

@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[
+bool isPowerOf2(long long n) {
+    return n > 0 && (n & (n - 1)) == 0;
+}
+]]></content>
+    <tabTrigger>powerof2</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

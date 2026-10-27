@@ -1,0 +1,60 @@
+<snippet>
+	<content><![CDATA[
+// Sparse table (idempotent ops: min, max, gcd, and, or)
+const int max_N = 200'005;
+const int LOG = 18;
+int SPT[max_N][LOG];
+int logarithm[max_N];
+
+// operations
+int op_min(int a, int b) { return min(a, b); }
+int op_max(int a, int b) { return max(a, b); }
+int op_gcd(int a, int b) { return __gcd(a, b); }   // C++17, or use __gcd
+int op_and(int a, int b) { return a & b; }
+int op_or (int a, int b) { return a | b; }
+
+
+// choose the operation here
+int (*op)(int, int) = op_min;   
+
+// call once at the start of main
+void build_logs()               
+{
+	logarithm[1] = 0;
+	for (int i = 2; i < max_N; ++i) logarithm[i] = logarithm[i / 2] + 1;
+}
+
+// SPT[i][0] must already be filled
+void build_sparse(int n)        
+{
+	for (int k = 1; k < LOG; ++k)
+		for (int i = 0; i + (1 << k) - 1 < n; ++i)
+			SPT[i][k] = op(SPT[i][k - 1], SPT[i + (1 << (k - 1))][k - 1]);
+}
+
+int sparse_table(int l, int r)  // 0-indexed, inclusive
+{
+	int k = logarithm[r - l + 1];
+	return op(SPT[l][k], SPT[r - (1 << k) + 1][k]);
+}
+
+// use of sparsh table
+void Mr_Robot()
+{
+	int n, q; cin >> n >> q;
+	for (int i = 0; i < n; ++i) cin >> SPT[i][0];
+
+	// op = op_gcd;   // change to switch the operation
+	build_sparse(n);
+
+	while (q--)
+	{
+		int l, r; cin >> l >> r;
+		--l; --r;
+		cout << sparse_table(l, r) << endl;
+	}
+}
+]]></content>
+	<tabTrigger>SparshTable</tabTrigger>
+	<scope>source.c, source.c++</scope>
+</snippet>

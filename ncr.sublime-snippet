@@ -1,0 +1,37 @@
+<snippet>
+    <content><![CDATA[
+// Function to find the nCr
+ll nCr(ll n, ll r)
+{
+    // p holds the value of n*(n-1)*(n-2)...,
+    // k holds the value of r*(r-1)...
+
+    ll p = 1, k = 1;
+
+    // C(n, r) == C(n, n-r),
+    if (n - r < r) r = n - r;
+
+    if (r != 0)
+    {
+        while (r)
+        {
+            p *= n;
+            k *= r;
+
+            ll m = __gcd(p, k);
+
+            p /= m;
+            k /= m;
+
+            n--;
+            r--;
+        }
+    }
+    else p = 1;
+
+    return p;
+}
+]]></content>
+    <tabTrigger>ncr</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

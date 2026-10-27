@@ -1,0 +1,18 @@
+<snippet>
+    <content><![CDATA[
+// Compute a^b in O(log b)
+ll Bin_Exp(ll a , ll b)
+{
+    if(b == 0) return 1;
+
+    ll res = Bin_Exp(a , b/2);
+
+    if(b & 1)
+        return a * res * res;
+    else
+        return res * res;
+}
+]]></content>
+    <tabTrigger>binexp</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

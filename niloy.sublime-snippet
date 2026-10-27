@@ -1,0 +1,56 @@
+<snippet>
+    <content><![CDATA[
+#include<bits/stdc++.h>
+using namespace std;
+
+static void fast_io() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+}
+
+#define endl '\n'
+#define ll long long
+#define test int tt; cin >> tt; for (int T = 1; T <= tt; T++)
+#define srt(x) sort(x.begin() , x.end()) //sort a vector
+#define rev(x) reverse(x.begin() , x.end()) // reverse a vector
+#define rev_srt(x) sort(x.rbegin() , x.rend()) // reverse sort
+#define InputVec(x) for(auto &i : x) cin >> i;
+#define OutputVec(x) for(auto &i : x) cout << i << " " ;
+#define all(x) (x).begin() , (x).end()
+
+inline ll lcm(ll x , ll y) {return (x / __gcd(x , y)) * y;}
+
+const ll MOD = 1e9 + 7;
+
+// Inline function for modulo
+inline ll mod(ll x) {
+    x %= MOD;
+    if (x < 0) x += MOD; // handle negative values
+    return x;
+}
+
+// compute smallest number num which is divisible by both x and y
+ll com(ll x , ll y)
+{
+    return (x*y) / __gcd(x , y);
+}
+
+//vector<vector<int>> vec(n, vector<int>(m, 0)); // n x m matrix filled with 0
+
+void FSociety()
+{
+
+}
+
+signed main(){
+    fast_io();
+
+    FSociety();
+
+    return 0;
+}
+]]></content>
+    <tabTrigger>niloy</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

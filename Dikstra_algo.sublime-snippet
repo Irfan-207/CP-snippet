@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+const ll mx = 1e6 + 5;
+vector<pair<ll,ll>> adj[mx];
+void dikstra_algo(ll start , ll end)
+{
+	const ll INF = 1e18;
+    vector<ll> dis(n + 1,INF);
+    vector<bool> vis(n + 1 , false);
+    set<pair<ll,ll>> st;
+    st.insert({0 , start});
+    dis[start] = 0;
+    while(!st.empty())
+    {
+    	auto it = *st.begin();
+    	ll node = it.second;
+
+    	st.erase(st.begin());
+
+    	if(vis[node]) continue;
+    	vis[node] = true;
+
+    	for(auto &x : adj[node])
+    	{
+    		ll child = x.first;
+    		ll wt = x.second;
+
+    		if(dis[node] + wt < dis[child])
+    		{
+    			dis[child] = dis[node] + wt;
+    			st.insert({dis[child] , child});
+    		}
+    	}
+    }
+
+    if(dis[end] == INF) cout << -1 << endl;
+    else cout << dis[end] << endl;
+}
+]]></content>
+	<tabTrigger>dikstra</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c , source.c++</scope>
+</snippet>

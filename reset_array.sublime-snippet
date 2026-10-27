@@ -1,0 +1,77 @@
+<snippet>
+    <content><![CDATA[
+// Reset a array to some value
+// ex : [1 2 3 4 5] ---> [10 10 10 10 10]
+
+template <typename T>
+struct LazyState
+{
+    vector<T> data;
+    vector<ll> last_set;
+    T global;
+    ll reset_time;
+    ll sum;
+    ll n;
+
+    // initialise from existing vector
+    LazyState(vector<T> &arr, ll n) : n(n)
+    {
+        data = arr;
+        last_set.assign(n + 1, 0);
+        global = T{};
+        reset_time = 0;
+        sum = accumulate(arr.begin() + 1, arr.end(), 0LL);
+    }
+};
+
+
+// O(1) — reset ALL elements to val
+template <typename T>
+void lazy_reset(LazyState<T> &ls, T val)
+{
+    ls.global = val;
+    ls.reset_time++;
+    ls.sum = ls.n * val;
+}
+
+
+// O(1) — set single element
+template <typename T>
+void lazy_set(LazyState<T> &ls, int idx, T val)
+{
+    T old_val =
+        (ls.last_set[idx] == ls.reset_time)
+        ? ls.data[idx]
+        : ls.global;
+
+    ls.sum -= old_val;
+    ls.sum += val;
+
+    ls.data[idx] = val;
+    ls.last_set[idx] = ls.reset_time;
+}
+
+
+// O(1) — get current value at idx
+template <typename T>
+T lazy_get(LazyState<T> &ls, int idx)
+{
+    return (ls.last_set[idx] == ls.reset_time)
+           ? ls.data[idx]
+           : ls.global;
+}
+
+
+/*
+USE THIS INSIDE YOUR SOLVE FUNCTION
+
+LazyState<ll> ls(vec, n); // single state object
+
+lazy_reset(ls , val); // reset ALL elements to val
+
+lazy_set(ls , (int)idx , val); // set a single element
+*/
+]]></content>
+    <tabTrigger>resetArray</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

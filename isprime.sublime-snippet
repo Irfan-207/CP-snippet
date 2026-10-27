@@ -1,0 +1,34 @@
+<snippet>
+    <content><![CDATA[
+/*
+Sieve to quickly check if a number <= x is prime
+Returns a boolean vector where prime[i] = true if i is prime
+
+Usage:
+   vector<char> prime_check = is_prime_sieve(1000000);
+   if (prime_check[17]) cout << "17 is prime";
+*/
+
+vector<char> is_prime_sieve(int x)
+{
+    vector<char> prime(x + 1, true);
+
+    prime[0] = prime[1] = false; // 0 and 1 are not prime
+
+    for (int p = 2; 1LL * p * p <= x; ++p)
+    {
+        if (prime[p])
+        {
+            for (long long mult = 1LL * p * p; mult <= x; mult += p)
+            {
+                prime[mult] = false;
+            }
+        }
+    }
+
+    return prime;
+}
+]]></content>
+    <tabTrigger>isprime</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

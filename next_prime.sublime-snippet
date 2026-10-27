@@ -1,0 +1,23 @@
+<snippet>
+    <content><![CDATA[
+// Precompute next prime for a upto 1e6
+// next_prime[x] = next prime number of x
+
+ll next(ll x)
+{
+    for (ll i = x + 1; i <= 1e6; i++)
+    {
+        if (prime_check[i]) return i;
+    }
+
+    return -1; // if out of range
+}
+
+ll next_prime[1e6 + 1];
+
+// move this into main()
+// for (int i = 1; i <= N; i++) next_prime[i] = next(i);
+]]></content>
+    <tabTrigger>nextprime</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

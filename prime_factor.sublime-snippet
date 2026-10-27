@@ -1,0 +1,38 @@
+<snippet>
+    <content><![CDATA[
+vector<ll> pf;
+set<ll> distinct_pf;
+
+// comfortably handles up to about 10^12
+void prime_factors(ll x)
+{
+    pf.clear();
+
+    if(x % 2 == 0)
+    {
+        pf.push_back(2);
+        while (x % 2 == 0) x /= 2;
+    }
+
+    for (ll i = 3; i*i <= x; i+=2)
+    {
+        if(x % i == 0)
+        {
+            pf.push_back(i);
+            while (x % i == 0) x /= i;
+        }
+    }
+
+    if(x > 1) pf.push_back(x);
+
+    distinct_pf.clear();
+    distinct_pf.insert(pf.begin() , pf.end());
+
+    // Runs in O(root(n))
+    // If you need distinct prime factors call the set (distinct_pf)
+    // If you need all the prime factors call the vector (pf)
+}
+]]></content>
+    <tabTrigger>primefactors</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,29 @@
+<snippet>
+    <content><![CDATA[
+// Generic version (works with any numeric-like type)
+template<typename T>
+vector<T> prefix_sum_generic(const vector<T>& a)
+{
+    int n = (int)a.size();
+    vector<T> p(n);
+
+    T cur = T();
+
+    for (int i = 0; i < n; ++i)
+    {
+        cur += a[i];
+        p[i] = cur;
+    }
+
+    return p;
+}
+
+ll sum(ll l , ll r)
+{
+    if(l == 0) return ps[r];
+    return ps[r] - ps[l - 1];
+}
+]]></content>
+    <tabTrigger>prefix</tabTrigger>
+    <scope>source.c++</scope>
+</snippet>
