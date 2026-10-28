@@ -1,0 +1,137 @@
+<snippet>
+	<content><![CDATA[
+
+/* ================= ROTATION CHEAT SHEET (free functions) =================
+   Global state: n, off (start offset), rev (reversed flag), v (storage)
+   Logical index i -> physical index:
+     rev = 0 : (off + i) % n
+     rev = 1 : (off + n - 1 - i) % n
+   Every op is O(1). Always use idx() for BOTH reads and writes.
+========================================================================== */
+
+int n;
+ll off = 0;
+bool rev = false;
+vector<ll> v;
+
+// logical -> physical
+int idx(ll i) 
+{                           
+    if (rev) i = n - 1 - i;
+    return (off + i) % n;
+}
+
+ll getv(ll i)          { return v[idx(i)]; }
+void setv(ll i, ll x)  { v[idx(i)] = x; }
+
+// left rotate; negative k = right rotate
+void rotL(ll k) 
+{                         
+    k = ((k % n) + n) % n;
+    if (rev) off = ((off - k) % n + n) % n;
+    else     off = (off + k) % n;
+}
+
+void rotR(ll k) { rotL(-k); }
+
+void reverseAll() { rev = !rev; }         // off stays unchanged
+
+/* ---------- one-shot helpers on plain containers ---------- */
+
+// O(n)
+template<class T>
+void rotateLeftOnce(vector<T>& a, ll k) 
+{         
+    int m = a.size(); if (!m) return;
+    k = ((k % m) + m) % m;
+    rotate(a.begin(), a.begin() + k, a.end());
+}
+
+bool isRotation(const string& s, const string& p) {   // is p a rotation of s
+    return s.size() == p.size() && (s + s).find(p) != string::npos;
+}
+
+// start index of lexicographically smallest rotation
+int minRot(const string& s) 
+{                     
+    int m = s.size(), i = 0, j = 1, k = 0;
+    while (i < m && j < m && k < m) {
+        char a = s[(i + k) % m], b = s[(j + k) % m];
+        if (a == b) { k++; continue; }
+        if (a > b) i += k + 1; else j += k + 1;
+        if (i == j) j++;
+        k = 0;
+    }
+    return min(i, j);
+}
+
+vector<ll> buildCircPre(const vector<ll>& a) {    // prefix sums on doubled array
+    int m = a.size();
+    vector<ll> pre(2 * m + 1, 0);
+    for (int i = 0; i < 2 * m; i++) pre[i + 1] = pre[i] + a[i % m];
+    return pre;
+}
+ll circSum(const vector<ll>& pre, int i, int len) {   // sum of a[i..i+len) circular, 0 <= i < m, len <= m
+    return pre[i + len] - pre[i];
+}
+
+/* ---------- optional: brute-force stress test (run once to verify) ---------- */
+void stress() {
+    mt19937 rng(12345);
+    for (int it = 0; it < 2000; it++) {
+        int sz = rng() % 8 + 1;
+        initArr(sz);
+        vector<ll> b(sz);
+        iota(b.begin(), b.end(), 1);
+        for (int op = 0; op < 30; op++) {
+            int t = rng() % 4;
+            if (t == 0) { int p = rng() % sz; ll x = rng() % 100; setv(p, x); b[p] = x; }
+            else if (t == 1) { int p = rng() % sz; assert(getv(p) == b[p]); }
+            else if (t == 2) { ll k = (ll)(rng() % 21) - 10; rotL(k);
+                               ll kk = ((k % sz) + sz) % sz;
+                               rotate(b.begin(), b.begin() + kk, b.end()); }
+            else { reverseAll(); reverse(b.begin(), b.end()); }
+        }
+        for (int i = 0; i < sz; i++) assert(getv(i) == b[i]);
+    }
+    cerr << "stress OK\n";
+}
+
+/* ---------- main: typical query loop ---------- */
+void solve() {
+    int q; cin >> n >> q;
+    initArr(n);
+    while (q--) {
+        int type; cin >> type;
+        if (type == 1) {                  // set a[p] = x
+            ll p, x; cin >> p >> x; p--;
+            setv(p, x);
+        } else if (type == 2) {           // print a[p]
+            ll p; cin >> p; p--;
+            cout << getv(p) << '\n';
+        } else if (type == 3) {           // rotate left by k
+            ll k; cin >> k;
+            rotL(k);
+        } else {                          // reverse whole array
+            reverseAll();
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    // stress();                          // uncomment to self-test, then remove
+    solve();
+    return 0;
+}
+
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rotate_array</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++ , source.c</scope>
+</snippet>

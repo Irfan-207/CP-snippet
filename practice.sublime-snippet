@@ -19,6 +19,11 @@ static void fast_io() {
 }
 #define endl '\n'
 #define ll long long
+using i128 = __int128_t;
+using ull = unsigned long long;
+
+const ll MOD = 1e9 + 7;
+
 #define test int tt; cin >> tt; for (int T = 1; T <= tt; T++)
 #define srt(x) sort(x.begin() , x.end()) //sort a vector
 #define rev(x) reverse(x.begin() , x.end()) // reverse a vector
@@ -26,11 +31,13 @@ static void fast_io() {
 #define InputVec(x) for(auto &i : x) cin >> i;
 #define OutputVec(x) for(auto &i : x) cout << i << " " ;
 #define all(x) (x).begin() , (x).end()
+inline ll count_pairs(ll n) {return (ll)((i128)n * (n - 1) / 2);} //Number of unordered pairs i < j among n items. Formula: n*(n-1)/2.
 void get_string();
 void Mr_Robot();
 int main()
 {
     fast_io();
+ 
     //test
     {
         //cout << "Case " << T << ": ";
@@ -47,10 +54,13 @@ void Mr_Robot()
     
 
 
+
+
+
+
 }
 
-/*-----------------------------------------------------------------------------------*/
-
+/*---------------------------STRING INPUT----------------------------------*/
 void get_string()
 {
     int x;
@@ -63,6 +73,7 @@ void get_string()
         // cout << s << '\n';
     }
 }
+/*-----------------------------------------------------------------------------------*/
 ]]></content>
     <tabTrigger>practice</tabTrigger>
     <scope>source.c++</scope>
